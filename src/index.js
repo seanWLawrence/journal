@@ -2,10 +2,12 @@
 
 import express from 'express';
 import { join } from 'path';
-const pgp = require('pg-promise')(/*options*/);
-const db = pgp('postgres://username:password@host:port/database');
-import page from './page';
+import page from './routes/page';
 import compression from 'compression';
+
+/**
+ * Initialize Express app
+ */
 const app = express();
 
 /**
@@ -55,7 +57,7 @@ app.get(
   },
   function(req, res) {
     res.send('Second callback');
-  }
+  },
 );
 
 /**
@@ -64,7 +66,7 @@ app.get(
  */
 app.get('/json', function(req, res) {
   const example = {
-    data: 'yo'
+    data: 'yo',
   };
 
   res.json(example);
@@ -102,16 +104,6 @@ app
 app.get('/html', function(req, res) {
   res.send('<h1>Hello world!</h1>');
 });
-
-db.one('SELECT $1 AS value', 123)
-  .then(function(data) {
-    // eslint-disable-next-line
-    console.log('DATA:', data.value);
-  })
-  .catch(function(error) {
-    // eslint-disable-next-line
-    console.log('ERROR:', error);
-  });
 
 /**
  * Starts the server on port 3000
