@@ -44,7 +44,6 @@ export function readPage(req, res, next) {
 
   /**
    * Queries the pages table for the page with the ID from the request parameter
-   *
    */
   db.one('SELECT * from pages WHERE ID = $1', [id])
     .then(function sendData(data) {
@@ -59,6 +58,28 @@ export function readPage(req, res, next) {
     });
 }
 
-export function readAllPages() {}
+/**
+ * Gets all pages from the database
+ * @param {Request} req
+ * @param {Response} res
+ * @param {Next} next
+ */
+export function readAllPages(req, res, next) {
+  /**
+   * Query the database and get all pages
+   */
+  db.any('SELECT * from pages')
+    .then(function sendData(data) {
+      res.status(200).json({
+        status: 'Success',
+        data,
+        message: 'Retrieved all pages',
+      });
+    })
+    .catch(function catchError(err) {
+      return next(err);
+    });
+}
+
 export function updatePage() {}
 export function deletePage() {}

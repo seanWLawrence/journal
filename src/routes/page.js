@@ -1,5 +1,5 @@
 import express from 'express';
-import { readPage } from '../queries';
+import { readPage, readAllPages } from '../queries';
 
 const router = express.Router();
 
@@ -17,7 +17,7 @@ router.get('/:id', readPage);
 /**
  * Gets all pages
  */
-// router.get('/all', readAllPages);
+router.get('/', readAllPages);
 
 /**
  * Updates a page
