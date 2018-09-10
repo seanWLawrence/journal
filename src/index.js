@@ -4,7 +4,6 @@ import express from 'express';
 import { join } from 'path';
 import pages from './routes/pages';
 import compression from 'compression';
-
 import type { $Application, Middleware } from 'express';
 
 /**
@@ -42,6 +41,7 @@ const errorHandler: Middleware = (
   res.status(500).send('Something broke!');
   next();
 };
+
 app.use(errorHandler);
 
 // eslint-disable-next-line

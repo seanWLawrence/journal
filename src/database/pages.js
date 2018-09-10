@@ -18,7 +18,7 @@ export function createPage(req: $Request, res: $Response, next: NextFunction) {
     'INSERT into pages (name, content) VALUES (${name}, ${content})',
     req.body,
   )
-    .then(function send$Response() {
+    .then(function sendResponse() {
       res.status(200).json({
         status: 'Success',
         message: 'Inserted one page',
@@ -39,13 +39,12 @@ export function readPage(req: $Request, res: $Response, next: NextFunction) {
    * @type {number}
    */
   const id = parseInt(req.params.id);
-
   /**
    * Queries the pages table for the page with the ID from the request parameter
    */
-  db.one('SELECT * from pages WHERE ID = $1', [id])
-    .then(function sendData(data) {
-      res.status(200).json({
+  db.one('SELECT * from pages WHERE ID = $1', id)
+    .then(function(data) {
+      res.json({
         status: 'success',
         data,
         message: `Retrieved page ${id}`,
@@ -72,7 +71,7 @@ export function readAllPages(
    */
   db.any('SELECT * from pages')
     .then(function sendData(data) {
-      res.status(200).json({
+      res.json({
         status: 'Success',
         data,
         message: 'Retrieved all pages',
