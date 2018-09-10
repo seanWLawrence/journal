@@ -20,4 +20,4 @@ CREATE TABLE pages (
 /* Insert one example page for testing */
 
 INSERT INTO pages (name, content)
-  VALUES ('test', 'Example text')
+  VALUES ('test', '# Hello, world!')

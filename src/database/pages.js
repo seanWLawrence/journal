@@ -1,5 +1,7 @@
 // @flow strict
 
+import MarkdownIt from 'markdown-it';
+
 import db from './index';
 
 import type { $Request, $Response, NextFunction } from 'express';
@@ -39,16 +41,45 @@ export function readPage(req: $Request, res: $Response, next: NextFunction) {
    * @type {number}
    */
   const id = parseInt(req.params.id);
+
+  /**
+   * Gets the format from the URL
+   * Example:
+   * /pages/1&format=html
+   * /pages/1&format=markdown
+   * /pages/1 or /pages/1&format=json
+   */
+  const format = req.query.format;
+
+  const markdown: MarkdownIt = new MarkdownIt();
+
   /**
    * Queries the pages table for the page with the ID from the request parameter
    */
   db.one('SELECT * from pages WHERE ID = $1', id)
-    .then(function(data) {
-      res.json({
-        status: 'success',
-        data,
-        message: `Retrieved page ${id}`,
-      });
+    .then(function sendData(data) {
+      /**
+       * Changes the output based on the query
+       * Example:
+       * /pages/1&format=html
+       * /pages/1 or /pages/1&format=json
+       */
+      switch (format) {
+        case 'html':
+          res.json({
+            status: 'success',
+            data: markdown.render(data.content),
+            message: `Retrieved page ${id}`,
+          });
+          break;
+        default:
+          res.json({
+            status: 'success',
+            data,
+            message: `Retrieved page ${id}`,
+          });
+          break;
+      }
     })
     .catch(function catchError(err) {
       return next(err);
