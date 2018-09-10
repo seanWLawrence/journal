@@ -1,5 +1,13 @@
+// @flow strict
+
 import express from 'express';
-import { readPage, readAllPages } from '../queries';
+import {
+  createPage,
+  readPage,
+  readAllPages,
+  updatePage,
+  deletePage,
+} from '../database/pages';
 
 const router = express.Router();
 
@@ -7,7 +15,7 @@ const router = express.Router();
  * Creates a new page
  */
 
-// router.post('/:id', createPage);
+router.post('/:id', createPage);
 
 /**
  * Gets a single page
@@ -22,11 +30,11 @@ router.get('/', readAllPages);
 /**
  * Updates a page
  */
-// router.put('/:id', updatePage);
+router.put('/:id', updatePage);
 
 /**
  * Deletes a page
  */
-// router.delete('/:id', deletePage);
+router.delete(':id', deletePage);
 
 export default router;

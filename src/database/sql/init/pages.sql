@@ -1,7 +1,4 @@
-DROP DATABASE IF EXISTS journal;
-CREATE DATABASE journal;
-
-\c journal;
+/* Create pages table */
 
 CREATE TABLE pages (
   ID SERIAL PRIMARY KEY,
@@ -9,5 +6,7 @@ CREATE TABLE pages (
   content VARCHAR
 );
 
+/* Insert one example page for testing */
+
 INSERT INTO pages (name, content)
-  VALUES ('test', 'Eaxmple text')
+  VALUES ('test', 'Example text')

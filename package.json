@@ -6,6 +6,8 @@
   "scripts": {
     "test:watch": "jest --watch",
     "test:ci": "jest",
+    "flow": "clear && flow",
+    "flow:stop": "flow stop",
     "lint": "flow && prettier-eslint --config .prettierrc.js --eslint-config-path .eslintrc.js --write  \"src/**.js\" && flow stop",
     "develop": "NODE_ENV=development nodemon src/index.js --exec babel-node src/index.js --presets @babel/preset-env,@babel/preset-flow",
     "build": "NODE_ENV=production babel src/index.js -o index.js",
