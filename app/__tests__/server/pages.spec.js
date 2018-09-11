@@ -1,5 +1,5 @@
 import request from 'supertest-as-promised';
-import Api from '../api';
+import Api from '../../api';
 
 const app = new Api().express;
 

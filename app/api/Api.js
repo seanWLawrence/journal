@@ -16,14 +16,15 @@ import cookieParser from 'cookie-parser';
 import expressSession from 'express-session';
 import compression from 'compression';
 import passport from 'passport';
-const Strategy = require('passport-local').Strategy;
+import { Strategy } from 'passport-local';
 
 /**
- * Custom scripts imports
+ * Custom script imports
  */
-import db from './database';
-import { pages, getLoginForm, getHomePage } from './routes';
-import { errorJSON } from './middleware';
+import db from '../models';
+import { pages, getLoginForm, getHomePage } from '../controllers';
+import errorJSON from '../utils/middleware/error';
+import handleClientRender from '../utils/middleware/ssr';
 import type { $Application } from 'express';
 
 export default class Api {
@@ -118,12 +119,17 @@ export default class Api {
     this.express.use(compression());
 
     /**
-     * Serves static assets from the public folder
+     * Serves static assets from the static folder
      */
     this.express.use(
       '/static',
-      express.static(path.join(__dirname, '..', 'public')),
+      express.static(path.join(__dirname, '..', 'static')),
     );
+
+    // /**
+    //  * Handles the client rendering on each request
+    //  */
+    // this.express.use(handleClientRender);
 
     /**
      * Parses cookies

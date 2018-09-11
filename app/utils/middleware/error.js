@@ -1,5 +1,8 @@
 // @flow strict
 
+/**
+ * Type imports
+ */
 import type { $Request, $Response, NextFunction } from 'express';
 
 /**
@@ -30,7 +33,7 @@ const internalError = {
   message: 'There was an internal error',
 };
 
-export function errorJSON(
+export default function errorJSON(
   err: ErrnoError,
   req: $Request,
   res: $Response,
@@ -43,21 +46,17 @@ export function errorJSON(
   if (res.headersSent) {
     return next(err);
   }
-
   /**
    * 404 error JSON response
    */
   res.status(404).json(wrongPath);
-
   /**
    * 400 error JSON response
    */
   res.status(400).json(wrongParameters);
-
   /**
    * Internal error JSON response
    */
   res.status(500).json(internalError);
-
-  next();
+  return next();
 }

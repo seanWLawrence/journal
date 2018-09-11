@@ -3,7 +3,7 @@
 import * as http from 'http';
 import type { Server } from 'http';
 import debug from 'debug';
-import Api from './api';
+import Api from './Api';
 
 /**
  * ErnoError interface for use in onError
@@ -102,3 +102,5 @@ function onListening(): void {
     typeof addr === 'string' ? `pipe ${addr}` : `port ${addr.port}`;
   logger(`Listening on ${bind}`);
 }
+
+export default server;

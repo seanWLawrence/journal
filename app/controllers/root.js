@@ -1,6 +1,6 @@
 // @flow strict
 
-import { getLoginForm, getHomePage } from '../database/root';
+import { getLoginForm, getHomePage } from '../models/root';
 
 /**
  * Simply imports and exports the root routes, since
