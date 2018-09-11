@@ -32,6 +32,33 @@ export function createPage(req: $Request, res: $Response, next: NextFunction) {
 }
 
 /**
+ * Displays a form to create a new page
+ * TODO: Replace with React.js
+ * @param {Request} req
+ * @param {Response} res
+ */
+export function getCreatePageForm(req: $Request, res: $Response) {
+  /**
+   * Displays the form if the res status was 200/good
+   */
+  res.status(200).send(`
+    <form action="/pages/new" method="post">
+      <div>
+        <label>Name:</label>
+        <input type="text" name="name" placeholder="Name your file"/><br/>
+      </div>
+      <div>
+        <label>Content:</label>
+        <textarea name="content" rows="40" cols="50"></textarea>
+      </div>
+      <div>
+        <input type="submit" value="Submit"/>
+      </div>
+    </form>
+  `);
+}
+
+/**
  * Gets a page using the ID from the URL parameter
  */
 export function readPage(req: $Request, res: $Response, next: NextFunction) {
@@ -120,17 +147,15 @@ export function updatePage(req: $Request, res: $Response, next: NextFunction) {
   /**
    * Destructures the params for more concise database query
    */
-  const {
-    params: { id },
-  } = req;
+  const { id } = req.params;
 
   db.none('UPDATE pages SET name=$1, content=$2 WHERE ID = $3', [
-    req.params.name,
-    req.params.content,
+    req.body.name,
+    req.body.content,
     id,
   ])
-    .then(function send$Response() {
-      res.status(200).json({
+    .then(function sendResponse() {
+      res.json({
         status: 'success',
         message: 'Updated page',
       });
@@ -138,6 +163,39 @@ export function updatePage(req: $Request, res: $Response, next: NextFunction) {
     .catch(function catchError(err) {
       return next(err);
     });
+}
+
+/**
+ * Displays a form to update a page
+ * TODO: Replace with React.js
+ * @param {Request} req
+ * @param {Response} res
+ */
+export function getUpdatePageForm(req: $Request, res: $Response) {
+  /**
+   * Gets the page's id from the URL
+   * Example: /pages/1 has a req.params.id value of 1
+   */
+  const { id } = req.params;
+
+  /**
+   * Displays the form
+   */
+  res.status(200).send(`
+    <form method="POST" action="/pages/edit/${id}?_method=PUT">
+      <div>
+        <label>Name:</label>
+        <input type="text" name="name" placeholder="Name your file"/><br/>
+      </div>
+      <div>
+        <label>Content:</label>
+        <textarea name="content" rows="40" cols="50"></textarea>
+      </div>
+      <div>
+        <input type="submit" value="Submit"/>
+      </div>
+    </form>
+  `);
 }
 
 /**
@@ -162,4 +220,22 @@ export function deletePage(req: $Request, res: $Response, next: NextFunction) {
     .catch(function catchError(err) {
       return next(err);
     });
+}
+
+/**
+ * Displays a delete page button
+ * TODO: Replace this with React.js
+ */
+export function getDeletePageButton(req: $Request, res: $Response) {
+  /**
+   * Gets the page id
+   */
+  const id = parseInt(req.params.id);
+
+  res.status(200).send(`
+    <h1>Delete page ${id}?</h1>
+    <form method="POST" action="/pages/delete/${id}?_method=DELETE">
+      <input type="submit" value="Submit" />
+    </form>
+  `);
 }

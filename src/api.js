@@ -9,6 +9,7 @@ import path from 'path';
  * Express imports and middleware
  */
 import express from 'express';
+import methodOverride from 'method-override';
 import morgan from 'morgan';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
@@ -21,9 +22,9 @@ const Strategy = require('passport-local').Strategy;
  * Custom scripts imports
  */
 import db from './database';
-import { pages, getLoginForm, authenticateUser } from './routes';
+import { pages, getLoginForm, getHomePage } from './routes';
 import { errorJSON } from './middleware';
-import type { $Application, Middleware } from 'express';
+import type { $Application } from 'express';
 
 export default class Api {
   // annotate with the express $Application type
@@ -95,8 +96,21 @@ export default class Api {
    * Loads all middleware into Express
    */
   middleware(): void {
+    /**
+     * Adds method-override package to allow HTML forms to use PUT and DELETE requests
+     */
+    this.express.use(methodOverride('_method'));
+
+    /**
+     * Init Morgan for better logging during development
+     */
     this.express.use(morgan('dev'));
+
+    /**
+     * Adds body parser package for getting form values
+     */
     this.express.use(bodyParser.urlencoded({ extended: false }));
+
     /**
      * Adds GZIP to express
      * For production, it's recommended to use a reverse proxy, see docs for details
@@ -159,6 +173,11 @@ export default class Api {
      * Connects pages routes
      */
     this.express.use('/pages', pages);
+
+    /**
+     * Connects basic app data homepage
+     */
+    this.express.get('/', getHomePage);
 
     /**
      * Displays login form

@@ -6,6 +6,21 @@
 import type { $Request, $Response } from 'express';
 
 /**
+ * Displays basic JSON response with information about the app
+ * @param {Request} req
+ * @param {Response} res
+ */
+export function getHomePage(req: $Request, res: $Response) {
+  res.status(200).json({
+    status: 'Success',
+    data: {
+      app: 'journal',
+    },
+    message: 'Successfully retrieved the app data',
+  });
+}
+
+/**
  * Displays a login form at the '/login' route
  * @param {Request} req
  * @param {Response} res

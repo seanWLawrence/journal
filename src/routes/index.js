@@ -5,6 +5,6 @@
  * in the Express init file
  */
 import pages from './pages';
-import { getLoginForm, authenticateUser } from './root';
+import { getLoginForm, getHomePage } from './root';
 
-export { pages, getLoginForm, authenticateUser };
+export { pages, getLoginForm, getHomePage };

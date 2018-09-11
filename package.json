@@ -1,5 +1,5 @@
 {
-  "name": "stratocaster",
+  "name": "journal",
   "version": "0.0.0",
   "description": "Node.js and GraphQL API backend for a journaling application",
   "main": "index.js",
@@ -64,6 +64,7 @@
     "express-session": "^1.15.6",
     "graphql": "^14.0.2",
     "markdown-it": "^8.4.2",
+    "method-override": "^3.0.0",
     "morgan": "^1.9.0",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
