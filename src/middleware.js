@@ -18,6 +18,12 @@ const wrongPath = {
   message: 'This path does not exist',
 };
 
+const wrongParameters = {
+  status: 400,
+  data: {},
+  message: 'This path does not exist with the supplied parameters',
+};
+
 const internalError = {
   status: 500,
   data: {},
@@ -42,6 +48,11 @@ export function errorJSON(
    * 404 error JSON response
    */
   res.status(404).json(wrongPath);
+
+  /**
+   * 400 error JSON response
+   */
+  res.status(400).json(wrongParameters);
 
   /**
    * Internal error JSON response

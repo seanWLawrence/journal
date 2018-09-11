@@ -10,9 +10,15 @@ import {
   getUpdatePageForm,
   deletePage,
   getDeletePageButton,
+  incorrectIDMiddleware,
 } from '../database/pages';
 
 const router = express.Router();
+
+/**
+ * Attaches the incorrect ID middleware function to the router
+ */
+router.param('id', incorrectIDMiddleware);
 
 /**
  * Creates a new page

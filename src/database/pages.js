@@ -70,6 +70,17 @@ export function readPage(req: $Request, res: $Response, next: NextFunction) {
   const id = parseInt(req.params.id);
 
   /**
+   * Checks that the id is present in URL
+   * If not, returns 400 error
+   * If true, do nothing
+   */
+  if (!id) {
+    const error = new Error('missing id');
+    error.httpStatusCode = 400;
+    return next(error);
+  }
+
+  /**
    * Gets the format from the URL
    * Example:
    * /pages/1&format=html
@@ -93,19 +104,17 @@ export function readPage(req: $Request, res: $Response, next: NextFunction) {
        */
       switch (format) {
         case 'html':
-          res.json({
+          return res.json({
             status: 'success',
             data: markdown.render(data.content),
             message: `Retrieved page ${id}`,
           });
-          break;
         default:
-          res.json({
+          return res.json({
             status: 'success',
             data,
             message: `Retrieved page ${id}`,
           });
-          break;
       }
     })
     .catch(function catchError(err) {
@@ -238,4 +247,32 @@ export function getDeletePageButton(req: $Request, res: $Response) {
       <input type="submit" value="Submit" />
     </form>
   `);
+}
+
+export function incorrectIDMiddleware(req, res, next, id) {
+  db.one('SELECT * from pages WHERE ID = $1', id)
+    .then(function() {
+      /**
+       * If data was found with this id, continue
+       */
+      next();
+    })
+    .catch(function catchError(err) {
+      /**
+       * If no data was found with this query, we'll return a 400 error
+       */
+      if (err.received === 0) {
+        return res.status(400).json({
+          status: 400,
+          data: {},
+          error: `No page found with id: ${id}`,
+        });
+      }
+
+      /**
+       * If data was received and there was another error continue
+       * TODO: Add more error handling checks
+       */
+      next(err);
+    });
 }
