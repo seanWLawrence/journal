@@ -35,6 +35,6 @@ router.put('/:id', updatePage);
 /**
  * Deletes a page
  */
-router.delete(':id', deletePage);
+router.delete('/:id', deletePage);
 
 export default router;

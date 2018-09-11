@@ -9,9 +9,9 @@
     "flow": "clear && flow",
     "flow:stop": "flow stop",
     "lint": "flow && prettier-eslint --config .prettierrc.js --eslint-config-path .eslintrc.js --write  \"src/**/*.js\" && flow stop",
-    "develop": "NODE_ENV=development nodemon src/index.js --exec babel-node src/index.js --presets @babel/preset-env,@babel/preset-flow",
+    "develop": "DEBUG=\"api:*\" NODE_ENV=development nodemon src/index.js --exec babel-node src/index.js --presets @babel/preset-env,@babel/preset-flow",
     "build": "NODE_ENV=production babel src/index.js -o index.js",
-    "commit": "npm run lint && npx git-cz"
+    "commit": "npx git-cz"
   },
   "keywords": [
     "node",
@@ -27,10 +27,16 @@
       "path": "node_modules/cz-conventional-changelog"
     }
   },
+  "jest": {
+    "transform": {
+      ".*": "<rootDir>/node_modules/babel-jest"
+    }
+  },
   "devDependencies": {
     "@babel/cli": "^7.0.0",
     "@babel/core": "^7.0.0",
     "@babel/node": "^7.0.0",
+    "@babel/plugin-proposal-class-properties": "^7.0.0",
     "@babel/preset-env": "^7.0.0",
     "@babel/preset-flow": "^7.0.0",
     "babel-eslint": "^9.0.0",
@@ -39,19 +45,28 @@
     "eslint-plugin-flowtype": "^2.50.0",
     "eslint-plugin-jest": "^21.22.0",
     "flow-bin": "^0.80.0",
-    "jest": "^23.5.0",
+    "jest": "^23.6.0",
     "nodemon": "^1.18.4",
     "prettier": "^1.14.2",
     "prettier-eslint": "^8.8.2",
-    "prettier-eslint-cli": "^4.7.1"
+    "prettier-eslint-cli": "^4.7.1",
+    "supertest": "^3.3.0",
+    "supertest-as-promised": "^4.0.2"
   },
   "dependencies": {
     "apollo-server": "^2.0.7",
+    "bcrypt": "^3.0.0",
     "bluebird": "^3.5.2",
+    "body-parser": "^1.18.3",
     "compression": "^1.7.3",
+    "cookie-parser": "^1.4.3",
     "express": "^4.16.3",
+    "express-session": "^1.15.6",
     "graphql": "^14.0.2",
     "markdown-it": "^8.4.2",
+    "morgan": "^1.9.0",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
     "pg-monitor": "^1.0.0",
     "pg-promise": "^8.4.6"
   }

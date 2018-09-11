@@ -20,4 +20,17 @@ CREATE TABLE pages (
 /* Insert one example page for testing */
 
 INSERT INTO pages (name, content)
-  VALUES ('test', '# Hello, world!')
+  VALUES ('test', '# Hello, world!');
+
+/* Create users table */
+
+CREATE TABLE users (
+  ID SERIAL PRIMARY KEY,
+  username VARCHAR,
+  password VARCHAR
+);
+
+/* Insert one example page for testing */
+
+INSERT INTO users (username, password)
+  VALUES ('tester', 'password1');

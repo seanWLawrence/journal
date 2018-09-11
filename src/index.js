@@ -1,48 +1,104 @@
 // @flow strict
 
-import express from 'express';
-import { join } from 'path';
-import pages from './routes/pages';
-import compression from 'compression';
-import type { $Application, Middleware } from 'express';
+import * as http from 'http';
+import type { Server } from 'http';
+import debug from 'debug';
+import Api from './api';
 
 /**
- * Initialize Express app
+ * ErnoError interface for use in onError
  */
-const app: $Application = express();
+declare interface ErrnoError extends Error {
+  errno?: number;
+  code?: string;
+  path?: string;
+  syscall?: string;
+}
 
 /**
- * Adds GZIP to express
- * For production, it's recommended to use a reverse proxy, see docs for details
+ * Logs that we're about to start the server
  */
-app.use(compression());
+const logger = debug('api:startup');
 
 /**
- * Serves static assets from the public folder
+ * Initializes the Api class
  */
-app.use('/static', express.static(join(__dirname, '..', 'public')));
+const app: Api = new Api();
 
 /**
- * Example with mini app router for page
+ * Sets default port constant value
  */
-app.use('/pages', pages);
+const DEFAULT_PORT: number = 3000;
 
 /**
- * Returns 404 message on routes that don't exist yet
- * Error handling middleware shuld always be placed last in the middleware chain
+ * Sets default port constant value
  */
-const errorHandler: Middleware = (
-  err: Error,
-  req: express$Request,
-  res: express$Response,
-  next: express$NextFunction,
-) => {
-  res.status(404).send('<h1>Page not found</h1>');
-  res.status(500).send('Something broke!');
-  next();
-};
+const port: number = parseInt(process.env.PORT, 10) || DEFAULT_PORT;
 
-app.use(errorHandler);
+/**
+ * Sets HTTP server with the Express instance to a variable
+ */
+const server: Server = http.createServer(app.express);
 
-// eslint-disable-next-line
-app.listen(3000, () => console.log('Listening on port 3000!'));
+/**
+ * Starts the server
+ */
+server.listen(port);
+
+/**
+ * Logs errors when they occur
+ */
+server.on('error', onError);
+
+/**
+ * Logs that the server is running
+ */
+server.on('listening', onListening);
+
+/**
+ * Handles errors effectively
+ * If system error on listen function, throw
+ * If
+ * @param {ErnError} error
+ */
+function onError(error: ErrnoError): void {
+  /**
+   * Throw error if there was a problem with the system's listen function
+   */
+  if (error.syscall !== 'listen') throw error;
+
+  /**
+   * Gets the port value to pass in the EADDRINUSE error log
+   * to specifiy which port is already being used
+   */
+  let bind: string =
+    typeof port === 'string' ? `Pipe ${port}` : `Port ${port.toString()}`;
+
+  /**
+   * Logs EACCES and EADDRINUSE errors and exits, and throw on other error types
+   */
+  switch (error.code) {
+    case 'EACCES':
+      // eslint-disable-next-line
+      console.error(`${bind} requires elevated privileges`);
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      // eslint-disable-next-line
+      console.error(`${bind} is already in use`);
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+}
+
+/**
+ * Logs that the server is running and what port it is running on
+ */
+function onListening(): void {
+  let addr: string = server.address();
+  let bind: string =
+    typeof addr === 'string' ? `pipe ${addr}` : `port ${addr.port}`;
+  logger(`Listening on ${bind}`);
+}
