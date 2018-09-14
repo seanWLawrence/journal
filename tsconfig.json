@@ -1,0 +1,29 @@
+{
+	"compilerOptions": {
+		"target": "es5",
+		"module": "commonjs",
+		"moduleResolution": "node",
+		// Enable strictest settings like strictNullChecks & noImplicitAny.
+		"strict": true,
+		// Import non-ES modules as default imports.
+		"esModuleInterop": true,
+		"jsx": "preserve",
+		"pretty": true,
+		"alwaysStrict": true,
+		"allowSyntheticDefaultImports": true,
+		"forceConsistentCasingInFileNames": true,
+		"inlineSourceMap": true,
+		"baseUrl": "app",
+		"paths": {
+			"@api/*": ["app/api/*"],
+			"@assets/*": ["app/assets/*"],
+			"@controllers/*": ["app/controllers/*"],
+			"@models/*": ["app/models/*"],
+			"@static/*": ["app/static/*"],
+			"@utils/middleware/*": ["app/utils/middleware/*"],
+			"@": ["./*"]
+		},
+		"noEmit": true,
+		"lib": ["es2018", "esnext.asynciterable", "dom"]
+	}
+}

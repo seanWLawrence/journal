@@ -1,84 +1,99 @@
 {
-  "name": "journal",
-  "version": "0.0.0",
-  "description": "Node.js and GraphQL API backend for a journaling application",
-  "main": "index.js",
-  "scripts": {
-    "test:watch": "jest --watch",
-    "test:ci": "jest",
-    "flow": "clear && flow",
-    "flow:stop": "flow stop",
-    "lint": "flow && prettier-eslint --config .prettierrc.js --eslint-config-path .eslintrc.js --write  \"src/**/*.js\" && flow stop",
-    "develop": "DEBUG=\"api:*\" NODE_ENV=development nodemon app/server.js --exec babel-node app/server.js --presets @babel/preset-env,@babel/preset-flow",
-    "develop:client": "babel app/client.js -o static --presets @babel/preset-env,@babel/preset-flow",
-    "build": "NODE_ENV=production babel src/index.js -o index.js",
-    "commit": "npx git-cz"
-  },
-  "keywords": [
-    "node",
-    "api",
-    "graphql",
-    "journal",
-    "markdown"
-  ],
-  "author": "Sean W. Lawrence",
-  "license": "MIT",
-  "config": {
-    "commitizen": {
-      "path": "node_modules/cz-conventional-changelog"
-    }
-  },
-  "jest": {
-    "transform": {
-      ".*": "<rootDir>/node_modules/babel-jest"
-    }
-  },
-  "devDependencies": {
-    "@babel/cli": "^7.0.0",
-    "@babel/core": "^7.0.0",
-    "@babel/node": "^7.0.0",
-    "@babel/plugin-proposal-class-properties": "^7.0.0",
-    "@babel/preset-env": "^7.0.0",
-    "@babel/preset-flow": "^7.0.0",
-    "babel-core": "^7.0.0-bridge.0",
-    "babel-eslint": "^9.0.0",
-    "babel-jest": "^23.6.0",
-    "eslint": "^5.5.0",
-    "eslint-plugin-flowtype": "^2.50.0",
-    "eslint-plugin-jest": "^21.22.0",
-    "flow-bin": "^0.80.0",
-    "jest": "^23.6.0",
-    "nodemon": "^1.18.4",
-    "prettier": "^1.14.2",
-    "prettier-eslint": "^8.8.2",
-    "prettier-eslint-cli": "^4.7.1",
-    "supertest": "^3.3.0",
-    "supertest-as-promised": "^4.0.2",
-    "webpack": "^4.18.0"
-  },
-  "dependencies": {
-    "@babel/preset-react": "^7.0.0",
-    "apollo-server": "^2.0.7",
-    "bcrypt": "^3.0.0",
-    "bluebird": "^3.5.2",
-    "body-parser": "^1.18.3",
-    "compression": "^1.7.3",
-    "cookie-parser": "^1.4.3",
-    "express": "^4.16.3",
-    "express-session": "^1.15.6",
-    "graphql": "^14.0.2",
-    "markdown-it": "^8.4.2",
-    "method-override": "^3.0.0",
-    "morgan": "^1.9.0",
-    "passport": "^0.4.0",
-    "passport-local": "^1.0.0",
-    "pg-monitor": "^1.0.0",
-    "pg-promise": "^8.4.6",
-    "qs": "^6.5.2",
-    "react": "^16.5.0",
-    "react-dom": "^16.5.0",
-    "react-redux": "^5.0.7",
-    "react-testing-library": "^5.0.1",
-    "redux": "^4.0.0"
-  }
+	"name": "journal",
+	"version": "0.0.0",
+	"description": "Node.js and GraphQL API backend for a journaling application",
+	"main": "index.js",
+	"scripts": {
+		"test:watch": "jest --watch",
+		"test:ci": "jest",
+		"lint": "tsc",
+		"lint:watch": "tsc -w",
+		"develop": "DEBUG=\"api:*\" NODE_ENV=development nodemon",
+		"build": "NODE_ENV=production ts-node app/server",
+		"commit": "npx git-cz"
+	},
+	"keywords": [
+		"node",
+		"api",
+		"graphql",
+		"journal",
+		"markdown"
+	],
+	"author": "Sean W. Lawrence",
+	"license": "MIT",
+	"config": {
+		"commitizen": {
+			"path": "node_modules/cz-conventional-changelog"
+		}
+	},
+	"dependencies": {
+		"bcrypt": "^3.0.0",
+		"body-parser": "^1.18.3",
+		"compression": "^1.7.3",
+		"cookie-parser": "^1.4.3",
+		"express": "^4.16.3",
+		"express-session": "^1.15.6",
+		"markdown-it": "^8.4.2",
+		"method-override": "^3.0.0",
+		"morgan": "^1.9.0",
+		"passport": "^0.4.0",
+		"passport-local": "^1.0.0",
+		"pg-monitor": "^1.0.0",
+		"pg-promise": "^8.4.6",
+		"react": "^16.5.0",
+		"react-dom": "^16.5.0",
+		"react-redux": "^5.0.7",
+		"redux": "^4.0.0"
+	},
+	"devDependencies": {
+		"@types/body-parser": "^1.17.0",
+		"@types/compression": "0.0.36",
+		"@types/cookie-parser": "^1.4.1",
+		"@types/debug": "0.0.30",
+		"@types/express": "^4.16.0",
+		"@types/express-session": "^1.15.11",
+		"@types/jest": "^23.3.2",
+		"@types/markdown-it": "0.0.5",
+		"@types/method-override": "0.0.31",
+		"@types/morgan": "^1.7.35",
+		"@types/node": "^10.9.4",
+		"@types/passport": "^0.4.6",
+		"@types/passport-local": "^1.0.33",
+		"@types/react": "^16.4.14",
+		"@types/react-dom": "^16.0.7",
+		"@types/react-redux": "^6.0.9",
+		"@types/supertest-as-promised": "^2.0.36",
+		"eslint": "^5.5.0",
+		"eslint-plugin-jest": "^21.22.0",
+		"jest": "^23.6.0",
+		"nodemon": "^1.18.4",
+		"prettier": "^1.14.2",
+		"prettier-eslint": "^8.8.2",
+		"prettier-eslint-cli": "^4.7.1",
+		"react-testing-library": "^5.0.1",
+		"supertest": "^3.3.0",
+		"supertest-as-promised": "^4.0.2",
+		"ts-jest": "^23.1.4",
+		"ts-node": "^7.0.1",
+		"typescript": "^3.0.3",
+		"webpack": "^4.18.0"
+	},
+	"jest": {
+		"moduleFileExtensions": [
+			"ts",
+			"tsx",
+			"js"
+		],
+		"transform": {
+			"^.+\\.(ts|tsx)$": "ts-jest"
+		},
+		"globals": {
+			"ts-jest": {
+				"tsConfigFile": "tsconfig.json"
+			}
+		},
+		"testMatch": [
+			"**/__tests__/*.+(ts|tsx|js)"
+		]
+	}
 }

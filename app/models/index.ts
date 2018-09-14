@@ -1,14 +1,11 @@
 // @flow strict
 
-import promise from 'bluebird';
 import pgp from 'pg-promise';
 
 /**
  * Set options object
  */
-const options = {
-  promiseLib: promise,
-};
+const options = {};
 
 /**
  * Set configuration object
