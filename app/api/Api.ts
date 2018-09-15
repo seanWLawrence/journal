@@ -20,7 +20,7 @@ import { Strategy as LocalStrategy } from 'passport-local';
 /**
  * Custom script imports
  */
-import { User } from '../global';
+import { User } from 'globals';
 import db from '../models';
 import { pages, getLoginForm, getHomePage } from '../controllers';
 import errorJSON from '../utils/middleware/error';

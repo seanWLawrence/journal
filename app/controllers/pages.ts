@@ -1,5 +1,3 @@
-// @flow strict
-
 /**
  * Package imports
  */
@@ -9,15 +7,15 @@ import express from 'express';
  * Script imports
  */
 import {
-  createPage,
-  getCreatePageForm,
-  readPage,
-  readAllPages,
-  updatePage,
-  getUpdatePageForm,
-  deletePage,
-  getDeletePageButton,
-  incorrectIDMiddleware,
+	createPage,
+	getCreatePageForm,
+	readPage,
+	readAllPages,
+	updatePage,
+	getUpdatePageForm,
+	deletePage,
+	getDeletePageButton,
+	incorrectIDMiddleware,
 } from '../models/pages';
 
 /**
@@ -60,25 +58,25 @@ pages.get('/', readAllPages);
  */
 
 pages
-  .route('/new')
-  .post(createPage)
-  .get(getCreatePageForm);
+	.route('/new')
+	.post(createPage)
+	.get(getCreatePageForm);
 
 /**
  * Routes for updating a page and getting the form to update a page
  */
 pages
-  .route('/edit/:id')
-  .put(updatePage)
-  .get(getUpdatePageForm);
+	.route('/edit/:id')
+	.put(updatePage)
+	.get(getUpdatePageForm);
 
 /**
  * Routes for deleting a page and getting the form to delete a page
  */
 pages
-  .route('/delete/:id')
-  .delete(deletePage)
-  .get(getDeletePageButton);
+	.route('/delete/:id')
+	.delete(deletePage)
+	.get(getDeletePageButton);
 
 /**
  * Exports the pages router as default

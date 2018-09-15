@@ -1,5 +1,3 @@
-// @flow strict
-
 import http from 'http';
 import { Server } from 'http';
 import debug from 'debug';

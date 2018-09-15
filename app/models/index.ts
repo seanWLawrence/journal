@@ -1,5 +1,3 @@
-// @flow strict
-
 import pgp from 'pg-promise';
 
 /**
@@ -11,10 +9,10 @@ const options = {};
  * Set configuration object
  */
 const config = {
-  host: 'localhost',
-  port: 5432,
-  database: 'journal',
-  user: 'postgres',
+	host: 'localhost',
+	port: 5432,
+	database: 'journal',
+	user: 'postgres',
 };
 
 /**

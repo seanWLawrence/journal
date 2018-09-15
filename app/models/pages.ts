@@ -1,11 +1,9 @@
-// @flow strict
-
 import MarkdownIt, { MarkdownIt as MD } from 'markdown-it';
 
 import db from '.';
 
 import { Request, Response, NextFunction } from 'express';
-import { Page } from '../global';
+import { Page } from 'globals';
 
 /**
  * Creates a single page
