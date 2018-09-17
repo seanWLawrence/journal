@@ -1,5 +1,6 @@
-import http from 'http';
-import { Server } from 'http';
+import https, { Server } from 'https';
+import { resolve } from 'path';
+import { readFileSync } from 'fs';
 import debug from 'debug';
 import Api from './Api';
 
@@ -36,9 +37,17 @@ const port: number = process.env.PORT
 	: DEFAULT_PORT;
 
 /**
+ * Gets localhost https files from the Desktop
+ */
+const certOptions = {
+	key: readFileSync(resolve(__dirname, '../../../server.key')),
+	cert: readFileSync(resolve(__dirname, '../../../server.crt')),
+};
+
+/**
  * Sets HTTP server with the Express instance to a variable
  */
-const server: Server = http.createServer(app.express);
+const server: Server = https.createServer(certOptions, app.express);
 
 /**
  * Starts the server
