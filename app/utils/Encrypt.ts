@@ -46,24 +46,18 @@ interface Config {
 }
 /**
  * Encrypt/decrypt helper for the Node crypto package's pbkdf2 and pbkdf2Sync functions
- * @example
- * const hashedPassword = new Encrypt({}).toHash('password1')
- *
- * const userInput = 'password1'
- *
- * new Encrypt({}).isMatch(userInput, hashedPassword).then(authenticated => authenticated ? loginUser() : redirect())
  */
-export default class Encrypt {
-	private salt: Buffer;
-	private iterations: number;
-	private keyLength: number;
-	private algorithm: 'sha512' | string;
+export default class Encrypt implements Config {
+	readonly salt: Buffer;
+	readonly iterations: number;
+	readonly keyLength: number;
+	readonly algorithm: Algorithm;
 
-	constructor({ salt, keyLength, iterations, algorithm }: Config) {
-		this.keyLength = keyLength || 16;
-		this.salt = salt || randomBytes(this.keyLength);
-		this.iterations = iterations || 1000;
-		this.algorithm = algorithm || 'sha512';
+	constructor(config: Config) {
+		this.keyLength = config.keyLength || 16;
+		this.salt = config.salt || randomBytes(this.keyLength);
+		this.iterations = config.iterations || 1000;
+		this.algorithm = config.algorithm || 'sha512';
 	}
 
 	private createHash(
@@ -116,6 +110,10 @@ export default class Encrypt {
 	/**
 	 * Asynchronously creates a new password hash as a HEX string
 	 * @param password UTF-8 string to hash
+	 * @example
+	 * const Encrypt = new Encrypt();
+	 *
+	 * Encrypt.toHash('my_password_string').then(hashedPassword => saveToDatabase(hashedPassword))
 	 */
 	public toHash(password: string): Promise<string> {
 		return this.createHash(password);
@@ -125,6 +123,10 @@ export default class Encrypt {
 	 * Asynchronously checks that a previously hashed HEX string from this class matches the raw UTF-8 version
 	 * @param password UTF-8 string to check against the hash
 	 * @param previouslyHashedPassword previously-hashed HEX string to check against the new UTF-8 string password
+	 * @example
+	 * const Encrypt = new Encrypt();
+	 *
+	 * Encrypt.isMatch('my_password_string', 'my_hashed_password_string').then(authenticated => loginUser() : redirectToLoginPage());
 	 */
 	public async isMatch(
 		password: string,
@@ -139,6 +141,10 @@ export default class Encrypt {
 	/**
 	 * Synchronously creates a new password hash as a HEX string
 	 * @param password UTF-8 string to hash
+	 * @example
+	 * const Encrypt = new Encrypt();
+	 *
+	 * const hashedPassword = Encrypt.toHashSync('my_password_string');
 	 */
 	public toHashSync(password: string): string {
 		return this.createHashSync(password);
@@ -148,6 +154,10 @@ export default class Encrypt {
 	 * Synchronously checks that a previously hashed HEX string from this class matches the raw UTF-8 version
 	 * @param password UTF-8 string to check against the hash
 	 * @param previouslyHashedPassword previously-hashed HEX string to check against the new UTF-8 string password
+	 * @example
+	 * const Encrypt = new Encrypt();
+	 *
+	 * const isAuthenticated = Encrypt.isMatchSync('my_password_string', 'my_hashed_password_string')
 	 */
 	public isMatchSync(
 		password: string,
